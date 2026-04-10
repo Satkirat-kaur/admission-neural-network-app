@@ -15,25 +15,16 @@ def preprocess_data(df: pd.DataFrame) -> pd.DataFrame:
     try:
         df = df.copy()
 
-        # Convert columns to object type as done in notebook
-        df["Credit_History"] = df["Credit_History"].astype("object")
-        df["Loan_Amount_Term"] = df["Loan_Amount_Term"].astype("object")
+        if "Serial_No" in df.columns:
+            df = df.drop(["Serial_No"], axis=1)
 
-        # Fill missing values
-        df["Gender"] = df["Gender"].fillna("Male")
-        df["Married"] = df["Married"].fillna(df["Married"].mode()[0])
-        df["Dependents"] = df["Dependents"].fillna(df["Dependents"].mode()[0])
-        df["Self_Employed"] = df["Self_Employed"].fillna(df["Self_Employed"].mode()[0])
-        df["Loan_Amount_Term"] = df["Loan_Amount_Term"].fillna(df["Loan_Amount_Term"].mode()[0])
-        df["Credit_History"] = df["Credit_History"].fillna(df["Credit_History"].mode()[0])
-        df["LoanAmount"] = df["LoanAmount"].fillna(df["LoanAmount"].median())
+        df["University_Rating"] = df["University_Rating"].astype("object")
+        df["Research"] = df["Research"].astype("object")
 
-        # Drop Loan_ID
-        if "Loan_ID" in df.columns:
-            df = df.drop("Loan_ID", axis=1)
+        df["Admit_Chance"] = (df["Admit_Chance"] >= 0.8).astype(int)
 
         return df
 
     except Exception as e:
-        logging.error(f"Failed during preprocessing: {e}")
+        logging.error(f"Preprocessing failed: {e}")
         raise

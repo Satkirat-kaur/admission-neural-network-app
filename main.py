@@ -10,22 +10,24 @@ def main():
     os.makedirs("models", exist_ok=True)
     setup_logging()
 
-    df = load_data("data/credit.csv")
+    df = load_data("data/Admission.csv")
     df = preprocess_data(df)
     df = encode_features(df)
 
-    print(df["Loan_Approved"].dtype)
-    print(df["Loan_Approved"].value_counts(dropna=False))
+    print("Columns in dataset:")
+    print(df.columns.tolist())
 
     X, y = split_features_target(df)
 
     model, scaler, X_train, X_test, y_train, y_test, X_train_scaled, X_test_scaled = train_model(X, y)
 
-    accuracy, cm = evaluate_model(model, X_test_scaled, y_test)
+    accuracy, cm, report = evaluate_model(model, X_test_scaled, y_test)
 
-    print(f"Model Accuracy: {accuracy:.4f}")
+    print(f"Accuracy: {accuracy:.4f}")
     print("Confusion Matrix:")
     print(cm)
+    print("Classification Report:")
+    print(report)
 
     save_artifacts(model, scaler, X.columns.tolist())
 

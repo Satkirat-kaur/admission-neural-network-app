@@ -1,114 +1,83 @@
-# Loan Eligibility Prediction System
+# Admission Chance Neural Network App
 
 ## Project Overview
 
-This project predicts whether a loan application will be approved based on applicant financial and demographic details using Machine Learning.
+This project predicts whether a student has a **high admission chance** using a neural network classifier.
 
-The original Jupyter Notebook model was modularized into a production-ready Python project and deployed as an interactive web application using Streamlit.
-
----
+The original notebook-based solution was modularized into a clean Python project and deployed as an interactive Streamlit application. The app not only predicts the outcome, but also provides profile interpretation, improvement suggestions, what-if analysis, and a suggested university tier.
 
 ## Objectives
 
-* Convert notebook-based ML code into modular Python scripts
-* Improve code readability, reusability, and maintainability
-* Implement logging and error handling
-* Deploy an interactive ML application using Streamlit
-* Publish the project on GitHub
+* Convert notebook-based neural network code into modular Python files
+* Train and evaluate an admission prediction model
+* Build an interactive Streamlit application
+* Help students understand and improve their admission profile
+* Publish the project to GitHub
 
----
+## Dataset
 
-## Machine Learning Approach
+The model uses the admission dataset with the following inputs:
 
-### Dataset
+* GRE_Score
+* TOEFL_Score
+* University_Rating
+* SOP
+* LOR
+* CGPA
+* Research
 
-The dataset contains loan applicant details such as:
+## Target Variable
 
-* Applicant Income
-* Coapplicant Income
-* Loan Amount
-* Credit History
-* Property Area
-* Education, Gender, etc.
+The original admission chance was converted into a binary class:
 
-### Target Variable
+* `1` = High Admission Chance
+* `0` = Lower Admission Chance
 
-* **Loan_Approved**
+This was done using the threshold:
 
-  * `1` → Approved
-  * `0` → Not Approved
+* `Admit_Chance >= 0.8` → `1`
+* otherwise → `0`
 
----
+## Preprocessing
 
-## Data Processing Steps
-
-* Handling missing values (mode & median imputation)
-* Converting categorical variables
-* One-hot encoding using `pd.get_dummies()`
-* Feature scaling using **MinMaxScaler**
-* Train-test split with stratification
-
----
+* Dropped `Serial_No`
+* Converted `University_Rating` and `Research` to categorical
+* Applied one-hot encoding
+* Scaled features using **MinMaxScaler**
+* Used train-test split with stratification
 
 ## Model Used
 
-* **Logistic Regression**
+* **MLPClassifier**
+* `hidden_layer_sizes=(3,)`
+* `batch_size=50`
+* `max_iter=500`
+* `activation='tanh'`
+* `random_state=123`
 
-### Model Performance
+## Model Performance
 
-* **Accuracy:** 85.37%
-* Strong performance in predicting approved loans
-* Very low false negative rate (important in financial decisions)
+* **Accuracy:** 90.00%
+* **Confusion Matrix:** `[[63, 6], [4, 27]]`
 
----
+This indicates strong performance in identifying both lower and high admission chance applicants.
 
-## Key Features of the Application
+## App Features
 
-### Modular Code Structure
-
-* Data preprocessing
-* Feature engineering
-* Model training
-* Evaluation
-* Utility functions
-
-### Logging & Error Handling
-
-* Logs stored in `/logs/app.log`
-* Helps debug and monitor execution
-
-### Interactive Streamlit App
-
-* User-friendly interface
-* Real-time loan prediction
-* Displays:
-
-  * Approval status
-  * Probability score
-  * Human-readable explanation of prediction
-
----
-
-## Explanation Feature
-
-The app includes a rule-based explanation system that highlights:
-
-* High loan amount
-* Low income
-* Weak credit history
-* Other financial indicators
-
-This improves transparency and user understanding.
-
----
+* Predicts whether a student has a high admission chance
+* Shows the probability of a high admission chance
+* Explains profile strengths and concerns
+* Suggests ways to improve the profile
+* Provides what-if scenario analysis
+* Recommends a university tier based on probability
 
 ## Project Structure
 
-```
-loan-eligibility-ml-app/
+```text 
+admission-neural-network-app/
 │
 ├── data/
-│   └── credit.csv
+│   └── Admission.csv
 │
 ├── src/
 │   ├── data_preprocessing.py
@@ -118,7 +87,7 @@ loan-eligibility-ml-app/
 │   └── utils.py
 │
 ├── models/
-│   ├── loan_model.pkl
+│   ├── admission_mlp_model.pkl
 │   ├── scaler.pkl
 │   └── feature_columns.pkl
 │
@@ -131,67 +100,47 @@ loan-eligibility-ml-app/
 └── README.md
 ```
 
----
+## How to Run
 
-## How to Run the Project
+### 1. Install dependencies
 
-### 1. Install Dependencies
-
-```
+```bash
 pip install -r requirements.txt
 ```
 
-### 2️. Train the Model
+### 2. Train the model
 
-```
+```bash 
 python main.py
 ```
 
-### 3️. Run the Streamlit App
+### 3. Run the Streamlit app
 
-```
+```bash 
 streamlit run app.py
 ```
 
----
+## Real-World Use Case
 
+This app can be used as a student decision-support tool to:
 
-
-## Sample Results
-
-* High loan amount → Lower approval probability
-* Strong credit history → Higher approval probability
-* Balanced income → Increased chances of approval
-
----
+* estimate admission competitiveness
+* identify weak points in an application
+* simulate how improvements affect admission likelihood
+* guide students toward realistic university tiers
 
 ## Future Improvements
 
-* Use advanced models (XGBoost, Neural Networks)
-* Add SHAP for explainability
-* Improve UI/UX design
-* Integrate real-time API
+* compare with other neural network architectures
+* use probability calibration
+* add historical admit profile comparison
+* support university-specific prediction models
 
----
-
-##  Author
+## Author
 
 **Satkirat Kaur**
 Algonquin College
-Business Intelligence System Infrastructure
 
----
+## GitHub Repository
 
-##  GitHub Repository
-
-https://github.com/Satkirat-kaur/loan-eligibility-ml-app
-
----
-
-##  Notes
-
-This project demonstrates an end-to-end ML pipeline:
-
-* From notebook → modular code → deployed application
-
-It reflects real-world industry practices in Machine Learning deployment.
+[(repo link](https://github.com/Satkirat-kaur/admission-neural-network-app)
