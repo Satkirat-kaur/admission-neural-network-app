@@ -144,3 +144,7 @@ Algonquin College
 ## GitHub Repository
 
 [(repo link](https://github.com/Satkirat-kaur/admission-neural-network-app)
+
+## Deployed Streamlit App
+
+https://admission-neural-network-app-eusetxbttmyz49zlchjyvs.streamlit.app/
